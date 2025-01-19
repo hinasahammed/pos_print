@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -329,10 +329,10 @@ class _MyAppState extends State<MyApp> {
       bytes += [0x1D, 0x56, 0x41, 0x00]; // GS V A - Paper cut
       bytes += generator.cut();
 
-      print("Generated ${bytes.length} bytes for printing");
+      log("Generated ${bytes.length} bytes for printing");
 
       if (selectedPrinter == null) {
-        print("No printer selected");
+        log("No printer selected");
         return;
       }
 
@@ -373,59 +373,10 @@ class _MyAppState extends State<MyApp> {
         bytes: finalBytes,
       );
 
-      print("Print command sent successfully");
+      log("Print command sent successfully");
     } catch (e, stackTrace) {
-      print("Error during printing: $e");
-      print("Stack trace: $stackTrace");
-    }
-  }
-
-  /// print ticket
-  void _printEscPos(List<int> bytes, Generator generator) async {
-    if (selectedPrinter == null) return;
-    var bluetoothPrinter = selectedPrinter!;
-
-    switch (bluetoothPrinter.typePrinter) {
-      case PrinterType.usb:
-        bytes += generator.feed(2);
-        bytes += generator.cut();
-        await printerManager.connect(
-            type: bluetoothPrinter.typePrinter,
-            model: UsbPrinterInput(
-                name: bluetoothPrinter.deviceName,
-                productId: bluetoothPrinter.productId,
-                vendorId: bluetoothPrinter.vendorId));
-        pendingTask = null;
-        break;
-      case PrinterType.bluetooth:
-        bytes += generator.cut();
-        await printerManager.connect(
-            type: bluetoothPrinter.typePrinter,
-            model: BluetoothPrinterInput(
-                name: bluetoothPrinter.deviceName,
-                address: bluetoothPrinter.address!,
-                isBle: bluetoothPrinter.isBle ?? false,
-                autoConnect: _reconnect));
-        pendingTask = null;
-        if (Platform.isAndroid) pendingTask = bytes;
-        break;
-      case PrinterType.network:
-        bytes += generator.feed(2);
-        bytes += generator.cut();
-        await printerManager.connect(
-            type: bluetoothPrinter.typePrinter,
-            model: TcpPrinterInput(ipAddress: bluetoothPrinter.address!));
-        break;
-      default:
-    }
-    if (bluetoothPrinter.typePrinter == PrinterType.bluetooth &&
-        Platform.isAndroid) {
-      if (_currentStatus == BTStatus.connected) {
-        printerManager.send(type: bluetoothPrinter.typePrinter, bytes: bytes);
-        pendingTask = null;
-      }
-    } else {
-      printerManager.send(type: bluetoothPrinter.typePrinter, bytes: bytes);
+      log("Error during printing: $e");
+      log("Stack trace: $stackTrace");
     }
   }
 
@@ -434,7 +385,7 @@ class _MyAppState extends State<MyApp> {
     if (selectedPrinter == null) return false;
 
     try {
-      print("Attempting to connect to ${selectedPrinter!.deviceName}");
+      log("Attempting to connect to ${selectedPrinter!.deviceName}");
 
       switch (selectedPrinter!.typePrinter) {
         case PrinterType.usb:
@@ -474,10 +425,10 @@ class _MyAppState extends State<MyApp> {
           break;
       }
 
-      print("Connection successful");
+      log("Connection successful");
       return true;
     } catch (e) {
-      print("Error during connection: $e");
+      log("Error during connection: $e");
       setState(() => _isConnected = false);
       return false;
     }
