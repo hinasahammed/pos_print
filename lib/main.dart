@@ -204,85 +204,85 @@ class _MyAppState extends State<MyApp> {
           styles: const PosStyles(align: PosAlign.center));
       bytes += generator.feed(1);
 
-      // Column Headers
+      // Column Headers - Added spaces for padding
       bytes += generator.row([
-        PosColumn(text: 'Item', width: 4),
+        PosColumn(text: 'Item          ', width: 6),
         PosColumn(
-            text: 'Qty',
+            text: ' Qty  ',
             width: 2,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: 'Price',
-            width: 3,
+            text: ' Price  ',
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: 'Total',
-            width: 3,
+            text: ' Total',
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
 
-      // Items
+      // Items - Added spaces for padding
       bytes += generator.row([
-        PosColumn(text: 'Product 1', width: 4),
+        PosColumn(text: 'Product 1     ', width: 6),
         PosColumn(
-            text: '2',
+            text: '  2   ',
             width: 2,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: '10.00',
-            width: 3,
+            text: ' 10.00 ',
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: '20.00',
-            width: 3,
+            text: ' 20.00',
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
 
       bytes += generator.row([
-        PosColumn(text: 'Product 2', width: 4),
+        PosColumn(text: 'Product 2     ', width: 6),
         PosColumn(
-            text: '1',
+            text: '  1   ',
             width: 2,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: '15.00',
-            width: 3,
+            text: ' 15.00 ',
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: '15.00',
-            width: 3,
+            text: ' 15.00',
+            width: 2,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
 
       bytes += generator.feed(1);
 
-      // Subtotal, Tax, Total
+      // Subtotal, Tax, Total - Added spaces for padding
       bytes += generator.row([
         PosColumn(
-            text: 'Subtotal:',
-            width: 6,
+            text: 'Subtotal:      ',
+            width: 8,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: '35.00',
-            width: 6,
+            text: '    35.00',
+            width: 4,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
 
       bytes += generator.row([
         PosColumn(
-            text: 'Tax (10%):',
-            width: 6,
+            text: 'Tax (10%):     ',
+            width: 8,
             styles: const PosStyles(align: PosAlign.right)),
         PosColumn(
-            text: '3.50',
-            width: 6,
+            text: '     3.50',
+            width: 4,
             styles: const PosStyles(align: PosAlign.right)),
       ]);
 
       bytes += generator.row([
         PosColumn(
-          text: 'TOTAL:',
-          width: 6,
+          text: 'TOTAL:         ',
+          width: 8,
           styles: const PosStyles(
             align: PosAlign.right,
             height: PosTextSize.size2,
@@ -290,8 +290,8 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         PosColumn(
-          text: '38.50',
-          width: 6,
+          text: '    38.50',
+          width: 4,
           styles: const PosStyles(
             align: PosAlign.right,
             height: PosTextSize.size2,
@@ -325,8 +325,6 @@ class _MyAppState extends State<MyApp> {
 
       // Add final feeds before the single cut
       bytes += generator.feed(3);
-
-      // Single cut command at the very end
       bytes += generator.cut();
 
       log("Generated ${bytes.length} bytes for printing");
