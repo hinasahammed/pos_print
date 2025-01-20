@@ -307,8 +307,7 @@ class _MyAppState extends State<MyApp> {
       bytes += generator.feed(1);
 
       // QR Code
-      bytes += generator.qrcode('https://yourstore.com/receipt/12345',
-          size: QRSize.Size4);
+      bytes += generator.qrcode('https://orivios.com/', size: QRSize.Size5);
       bytes += generator.feed(1);
 
       // Footer
@@ -323,10 +322,11 @@ class _MyAppState extends State<MyApp> {
           styles: const PosStyles(align: PosAlign.center));
       bytes += generator.text('with original receipt',
           styles: const PosStyles(align: PosAlign.center));
+
+      // Add final feeds before the single cut
       bytes += generator.feed(3);
 
-      // Cut paper
-      bytes += [0x1D, 0x56, 0x41, 0x00]; // GS V A - Paper cut
+      // Single cut command at the very end
       bytes += generator.cut();
 
       log("Generated ${bytes.length} bytes for printing");
@@ -365,13 +365,6 @@ class _MyAppState extends State<MyApp> {
 
         await Future.delayed(const Duration(milliseconds: 50));
       }
-
-      // Final feed and cut
-      final finalBytes = generator.feed(2) + generator.cut();
-      await printerManager.send(
-        type: PrinterType.usb,
-        bytes: finalBytes,
-      );
 
       log("Print command sent successfully");
     } catch (e, stackTrace) {
