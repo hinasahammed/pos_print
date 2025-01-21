@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_pos_printer_platform_image_3: ^1.2.4
   esc_pos_utils: ^1.1.0
+  shared_preferences: ^2.3.5
 
 dev_dependencies:
   flutter_test:
